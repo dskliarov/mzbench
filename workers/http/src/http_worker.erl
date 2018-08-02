@@ -77,9 +77,9 @@ get(#state{connection = Connection, prefix = Prefix, options = Options} = State,
 -spec post(state(), meta(), string() | binary(), iodata()) -> {nil, state()}.
 post(State, Meta, Endpoint, Payload) when is_list(Endpoint) ->
     post(State, Meta, list_to_binary(Endpoint), Payload);
-post(#state{connection = Connection, prefix = Prefix, options = Options} = State, _Meta, Endpoint, Payload) ->
+post(#state{connection = Connection, prefix = Prefix, options = _Options} = State, _Meta, Endpoint, Payload) ->
     Response = ?TIMED(Prefix ++ ".latency", hackney:send_request(Connection,
-        {post, Endpoint, Options, Payload})),
+                                                                 {post, Endpoint, [{<<"Content-Type">>, <<"application/json">>}], Payload})),
     {nil, State#state{connection = record_response(Prefix, Response)}}.
 
 -spec put(state(), meta(), string() | binary(), iodata()) -> {nil, state()}.
