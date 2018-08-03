@@ -1,6 +1,6 @@
 REBAR := $(abspath $(shell which ../../bin/rebar3 || which rebar3))
 
-SOURCES := src/http_worker.erl src/http_worker.app.src
+SOURCES := src/httpjson_worker.erl src/httpjson_worker.app.src
 
 .PHONY: compile
 compile: .make/compilation-up-to-date
@@ -9,7 +9,7 @@ compile: .make/compilation-up-to-date
 generate_tgz: pkgroot
 	mkdir -p pkgroot
 	rsync -aW pkgroot/ pkgroot
-	cd pkgroot && tar czf ../http_worker.tgz ./${PKG_NAME} && cd ..
+	cd pkgroot && tar czf ../httpjson_worker.tgz ./${PKG_NAME} && cd ..
 	rm -rf pkgroot
 
 .make/compilation-up-to-date: $(SOURCES) rebar.config
@@ -32,7 +32,7 @@ check:
 check-local:
 	cd test && ./main.py --local
 
-PKG_NAME = http_worker
+PKG_NAME = httpjson_worker
 
 .PHONY: pkgroot
 pkgroot: .make/compilation-up-to-date
